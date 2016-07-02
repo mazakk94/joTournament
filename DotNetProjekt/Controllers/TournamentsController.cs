@@ -7,17 +7,26 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCprojekt.Models;
+using PagedList;
 
 namespace DotNetProjekt.Controllers
 {
     public class TournamentsController : Controller
     {
+        public const int pageSize = 10;
         private TournamentDbContext db = new TournamentDbContext();
 
         // GET: Tournaments
-        public ActionResult Index()
+        //[Authorize]
+        public ActionResult Index(int? page)
         {
-            return View(db.Tournaments.ToList());
+            if(page < 1)
+            {
+                return HttpNotFound("No such page");
+            }
+            int pageNumber = page ?? 1;
+            ViewBag.Page = pageNumber;
+            return View(db.Tournaments.Where(t => t.deadline > DateTime.Now).OrderBy(t => t.deadline).ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Tournaments/Details/5

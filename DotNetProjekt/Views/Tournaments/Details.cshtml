@@ -42,15 +42,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.organisator)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.requestLimit)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.requestLimit)
-        </dd>
+        </dd>       
 
         <dt>
             @Html.DisplayNameFor(model => model.deadline)
@@ -61,6 +53,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.time)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.playersCount)
         </dt>
         
@@ -68,9 +68,18 @@
             @Html.DisplayFor(model => model.playersCount)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.requestLimit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.requestLimit)
+        </dd>
+
         <script>
             function initialize() {
                 var mapProp = {
+
                     center: new google.maps.LatLng(51.508742, -0.120850),
                     zoom: 5,
                     mapTypeId: google.maps.MapTypeId.ROADMAP

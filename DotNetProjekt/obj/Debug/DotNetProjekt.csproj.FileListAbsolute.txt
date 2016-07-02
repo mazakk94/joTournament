@@ -53,3 +53,7 @@ c:\users\mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetP
 c:\users\mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\obj\Debug\DotNetProjekt.csprojResolveAssemblyReference.cache
 c:\users\mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\obj\Debug\DotNetProjekt.dll
 c:\users\mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\obj\Debug\DotNetProjekt.pdb
+C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\PagedList.dll
+C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\PagedList.Mvc.dll
+C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\PagedList.xml
+C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\PagedList.Mvc.xml

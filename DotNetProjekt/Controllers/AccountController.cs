@@ -68,6 +68,7 @@ namespace DotNetProjekt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            returnUrl = "Tournaments";
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -449,7 +450,7 @@ namespace DotNetProjekt.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Tournaments");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
