@@ -57,3 +57,6 @@ C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetP
 C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\PagedList.Mvc.dll
 C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\PagedList.xml
 C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\PagedList.Mvc.xml
+C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\SendGrid.CSharp.HTTP.Client.dll
+C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\System.Net.Http.Formatting.dll
+C:\Users\Mazi\Documents\Visual Studio 2013\siszarpProjects\DotNetProjekt\DotNetProjekt\bin\System.Net.Http.Formatting.xml

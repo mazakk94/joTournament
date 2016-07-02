@@ -58,7 +58,7 @@ namespace DotNetProjekt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,name,location,discipline,organisator,requestLimit,deadline,playersCount")] Tournament tournament)
+        public ActionResult Create([Bind(Include = "Id,name,location,discipline,organisator,requestLimit,time,deadline,playersCount")] Tournament tournament)
         {
             if (ModelState.IsValid)
             {
