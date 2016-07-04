@@ -5,21 +5,63 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using DotNetProjekt.Models;
+using DotNetProjekt.Controllers;
+using System.Net;
+using System.Net.Mail;
+using SendGrid;
 
 namespace DotNetProjekt
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+
+        public async Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            //return Task.FromResult(0);
+            await configSendGridasync(message);
+        }
+
+        private async Task configSendGridasync(IdentityMessage msg)
+        {
+
+            var fromAddress = new MailAddress("testujedotneta@gmail.com", "From Name");
+            const string fromPassword = "Qwerty!23";
+
+            //msg.Destination
+            //var user = UserManager.Find(model.Email, model.Password);
+            //fromPassword = User.Identity
+            //var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            //User.Identity.GetUserName();
+
+            var toAddress = new MailAddress(msg.Destination, "To Name");
+            const string subject = "joTournament email confirmation";
+            string body = msg.Body;
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
         }
     }
 

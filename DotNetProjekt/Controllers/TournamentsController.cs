@@ -29,6 +29,21 @@ namespace DotNetProjekt.Controllers
             return View(db.Tournaments.Where(t => t.deadline > DateTime.Now).OrderBy(t => t.deadline).ToPagedList(pageNumber, pageSize));
         }
 
+        // GET: Tournaments/SignUp/zzzzzzzzzzzzzzzzzzzzzz
+        public ActionResult SignUp(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Tournament tournament = db.Tournaments.Find(id);
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tournament);
+        }
+
         // GET: Tournaments/Details/5
         public ActionResult Details(short? id)
         {
@@ -43,6 +58,7 @@ namespace DotNetProjekt.Controllers
             }
             return View(tournament);
         }
+
 
         // GET: Tournaments/Create
         public ActionResult Create()
@@ -78,6 +94,7 @@ namespace DotNetProjekt.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Tournament tournament = db.Tournaments.Find(id);
+
             if (tournament == null)
             {
                 return HttpNotFound();

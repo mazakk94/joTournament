@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MVCprojekt.Models.Tournament>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<MVCprojekt.Models.Tournament>
 
 @{
     ViewBag.Title = "Index";
@@ -66,10 +67,20 @@
         <td>
             @Html.DisplayFor(modelItem => item.playersCount)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        <td>                
+            @if (item.organisator == User.Identity.GetUserName())
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+             @Html.Raw(" | ")
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+             @Html.Raw(" | ")
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })            
+            }
+            else
+            {
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            }        
+
         </td>
     </tr>
 }

@@ -52,6 +52,18 @@ namespace DotNetProjekt.Controllers
             }
         }
 
+
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -74,9 +86,26 @@ namespace DotNetProjekt.Controllers
                 return View(model);
             }
 
+
+            var user = UserManager.Find(model.Email, model.Password);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
+
+                    // Uncomment to debug locally  
+                    ViewBag.Link = callbackUrl;
+                    ViewBag.errorMessage = "You must have a confirmed email to log on. "
+                                         + "The confirmation token has been resent to your email account.";
+                    return View("Error");
+                }
+            }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            
             switch (result)
             {
                 case SignInStatus.Success:
@@ -156,6 +185,34 @@ namespace DotNetProjekt.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //  Comment the following line to prevent log in until the user is confirmed.
+                    //  await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+
+
+                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
+                                    + "before you can log in.";
+
+                    // For local debug only
+                    ViewBag.Link = callbackUrl;
+
+                    return View("Info");
+                    //return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }/*
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -171,7 +228,7 @@ namespace DotNetProjekt.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
+        }*/
 
         //
         // GET: /Account/ConfirmEmail
@@ -210,12 +267,12 @@ namespace DotNetProjekt.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account",
+                new { UserId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password",
+                "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
@@ -393,7 +450,7 @@ namespace DotNetProjekt.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Tournaments");
         }
 
         //

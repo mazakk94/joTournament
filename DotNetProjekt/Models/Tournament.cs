@@ -14,16 +14,13 @@ namespace MVCprojekt.Models
         public String location { get; set; }
         public String discipline { get; set; }
         public String organisator { get; set; }
-        //mapka
-
         [DataType(DataType.Date)]
         public DateTime time { get; set; }
-
         [DataType(DataType.Date)]
         public DateTime deadline { get; set; }
         public int requestLimit { get; set; }
-        //logo
         public int playersCount { get; set; }
+        public List<String> players { get; set; }
 
 
     }
